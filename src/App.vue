@@ -11,16 +11,27 @@ export default {
     };
   },
   methods: {
+    /**
+     * Funzione che restituisce il path assoluto che VUE non riesce a comprendere da solo
+     * @param {*} imgName path relativo
+     */
+    getUrl(imgName) {
+      const imgUrl = new URL(
+        "./assets/img/" + imgName + ".png",
+        import.meta.url
+      );
+      return imgUrl.href;
+    },
     fetchResearch() {
       const researchValue = this.research.toLowerCase().trim();
-      axios
-        .get(
-          `https://api.themoviedb.org/3/search/movie?api_key=fc68362da932f9ce47e099180fad846f&language=it&query= ${researchValue}`
-        )
-        .then((res) => {
-          store.searchResult = res.data.results;
-          console.log(res.data.results);
-        });
+      axios.get(`${store.apiUriFilms} ${researchValue}`).then((res) => {
+        store.searchResultsFilms = res.data.results;
+        console.log(res.data.results);
+      });
+      axios.get(`${store.apiUriSeries} ${researchValue}`).then((res) => {
+        store.searchResultsSeries = res.data.results;
+        console.log(res.data.results);
+      });
     },
   },
 };
@@ -43,11 +54,41 @@ export default {
       <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
     </button>
   </div>
-  <div v-for="result in store.searchResult">
-    <h3>{{ result.title }}</h3>
+  <h2 class="text-danger">Film</h2>
+  <div v-for="result in store.searchResultsFilms">
+    <h4>{{ result.title }}</h4>
     <ul>
-      <li>Titolo Originale: {{ result.original_title }}</li>
-      <li>Lingua: {{ result.original_language }}</li>
+      <li v-show="result.title != result.original_title">
+        Titolo Originale: {{ result.original_title }}
+      </li>
+      <li>
+        Lingua:
+        <div v-if="store.flags.includes(result.original_language)" class="flag">
+          <img :src="getUrl(result.original_language)" alt="" class="border" />
+        </div>
+        <div v-else>
+          {{ result.original_language }}
+        </div>
+      </li>
+      <li>Voto: {{ result.vote_average }}</li>
+    </ul>
+  </div>
+  <h2 class="text-danger">Serie Tv</h2>
+  <div v-for="result in store.searchResultsSeries">
+    <h4>{{ result.name }}</h4>
+    <ul>
+      <li v-show="result.name != result.original_name">
+        Titolo Originale: {{ result.original_name }}
+      </li>
+      <li>
+        Lingua:
+        <div v-if="store.flags.includes(result.original_language)" class="flag">
+          <img :src="getUrl(result.original_language)" alt="" class="border" />
+        </div>
+        <div v-else>
+          {{ result.original_language }}
+        </div>
+      </li>
       <li>Voto: {{ result.vote_average }}</li>
     </ul>
   </div>
@@ -58,5 +99,9 @@ export default {
 
 .searchbar {
   width: 400px;
+}
+.flag {
+  width: 50px;
+  aspect-ratio: 1;
 }
 </style>
