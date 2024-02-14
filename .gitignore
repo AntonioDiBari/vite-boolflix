@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/Istruzioni.md
+/BoolFlix con Vite.pdf
