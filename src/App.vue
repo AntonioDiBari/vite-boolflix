@@ -74,7 +74,7 @@ export default {
 }
 .main {
   height: calc(100% - $headerHeight);
-  background-color: #564d4d;
+  background-color: #252525;
   overflow: auto;
 }
 </style>

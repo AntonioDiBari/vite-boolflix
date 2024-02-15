@@ -26,15 +26,13 @@ export default {
 
 <template>
   <section class="wrapper pt-3">
-    <h2 v-show="store.searchResultsFilms.length != 0" class="text-danger">
-      Film
-    </h2>
+    <h2 v-show="store.searchResultsFilms.length != 0" class="">Film</h2>
     <div class="navigator">
       <div v-for="result in store.searchResultsFilms">
         <AppCard :result="result"></AppCard>
       </div>
     </div>
-    <h2 v-show="store.searchResultsSeries.length != 0" class="text-danger mt-3">
+    <h2 v-show="store.searchResultsSeries.length != 0" class="mt-3">
       Serie Tv
     </h2>
     <div class="navigator">
