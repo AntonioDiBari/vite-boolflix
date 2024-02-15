@@ -25,22 +25,34 @@ export default {
 </script>
 
 <template>
-  <h2 class="text-danger">Film</h2>
-  <div v-for="result in store.searchResultsFilms">
-    <AppCard :result="result"></AppCard>
-  </div>
-  <h2 class="text-danger">Serie Tv</h2>
-  <div v-for="result in store.searchResultsSeries">
-    <AppCard :result="result"></AppCard>
-  </div>
+  <section class="wrapper pt-3">
+    <h2 v-show="store.searchResultsFilms.length != 0" class="text-danger">
+      Film
+    </h2>
+    <div class="navigator">
+      <div v-for="result in store.searchResultsFilms">
+        <AppCard :result="result"></AppCard>
+      </div>
+    </div>
+    <h2 v-show="store.searchResultsSeries.length != 0" class="text-danger mt-3">
+      Serie Tv
+    </h2>
+    <div class="navigator">
+      <div v-for="result in store.searchResultsSeries">
+        <AppCard :result="result"></AppCard>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
 @use "../styles/partials/mixins" as *;
 @use "../styles/partials/variables" as *;
 
-.flag {
-  width: 50px;
-  aspect-ratio: 1;
+.navigator {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  height: 100%;
 }
 </style>

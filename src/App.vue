@@ -55,12 +55,26 @@ export default {
 </script>
 
 <template>
-  <div class="container mt-4 ms-5">
+  <div class="webapp">
     <AppHeader @user-research="fetchResearch"></AppHeader>
-    <AppMain></AppMain>
+    <div class="main">
+      <AppMain></AppMain>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 @use "./styles/general.scss";
+@use "./styles/partials/variables" as *;
+
+.webapp {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.main {
+  height: calc(100% - $headerHeight);
+  background-color: #564d4d;
+  overflow: auto;
+}
 </style>
