@@ -1,12 +1,15 @@
 <script>
-import axios from "axios";
 import { store } from "../store/index";
+import AppCard from "../components/AppCard.vue";
 
 export default {
   data() {
     return {
       store,
     };
+  },
+  components: {
+    AppCard,
   },
   methods: {
     /**
@@ -17,10 +20,6 @@ export default {
       const imgUrl = new URL(path + imgName + type, import.meta.url);
       return imgUrl.href;
     },
-    avarageVote(result) {
-      const star = Math.round(result / 2);
-      return star;
-    },
   },
 };
 </script>
@@ -28,72 +27,11 @@ export default {
 <template>
   <h2 class="text-danger">Film</h2>
   <div v-for="result in store.searchResultsFilms">
-    <h4>{{ result.title }}</h4>
-    <ul>
-      <li v-show="result.title != result.original_title">
-        Titolo Originale: {{ result.original_title }}
-      </li>
-      <li>
-        Lingua:
-        <div v-if="store.flags.includes(result.original_language)" class="flag">
-          <img
-            :src="getUrl('../assets/img/', result.original_language, '.png')"
-            alt=""
-            class="border"
-          />
-        </div>
-        <div v-else>
-          {{ result.original_language }}
-        </div>
-      </li>
-      <li v-show="result.vote_average > 0">
-        Voto:
-        <span v-for="star in 5">
-          <font-awesome-icon icon="fa-solid fa-star" /></span
-        >{{ avarageVote(result.vote_average) }}
-      </li>
-      <li>
-        <img
-          v-if="result.poster_path"
-          :src="getUrl('https://image.tmdb.org/t/p/w342', result.poster_path)"
-          alt=""
-        />
-        <span v-else>Nessuna copertina :[</span>
-      </li>
-    </ul>
+    <AppCard :result="result"></AppCard>
   </div>
   <h2 class="text-danger">Serie Tv</h2>
   <div v-for="result in store.searchResultsSeries">
-    <h4>{{ result.name }}</h4>
-    <ul>
-      <li v-show="result.name != result.original_name">
-        Titolo Originale: {{ result.original_name }}
-      </li>
-      <li>
-        Lingua:
-        <div v-if="store.flags.includes(result.original_language)" class="flag">
-          <img
-            :src="getUrl('../assets/img/', result.original_language, '.png')"
-            alt=""
-            class="border"
-          />
-        </div>
-        <div v-else>
-          {{ result.original_language }}
-        </div>
-      </li>
-      <li v-show="result.vote_average > 0">
-        Voto: {{ avarageVote(result.vote_average) }}
-      </li>
-      <li>
-        <img
-          v-if="result.poster_path"
-          :src="getUrl('https://image.tmdb.org/t/p/w342', result.poster_path)"
-          alt=""
-        />
-        <span v-else>Nessuna copertina :[</span>
-      </li>
-    </ul>
+    <AppCard :result="result"></AppCard>
   </div>
 </template>
 
