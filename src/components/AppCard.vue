@@ -43,9 +43,9 @@ export default {
         </li>
         <li v-show="result.vote > 0">
           <span class="fw-bolder text-light">Voto:</span>
-          <span v-for="(star, indexStar) in 5">
+          <span v-for="star in 5">
             <font-awesome-icon
-              v-if="result.vote >= indexStar + 1"
+              v-if="result.vote >= star"
               icon="fa-solid fa-star"
               class="text-warning"
             />
@@ -83,7 +83,7 @@ export default {
 }
 .card {
   margin-bottom: 10px;
-  width: 342px;
+  min-width: 342px;
   background-color: black;
   border: 0;
   .poster {
@@ -92,10 +92,11 @@ export default {
   }
   .card-info {
     display: none;
+    width: 342px;
     height: 510px;
     border: 1px solid white;
     color: grey;
-    padding: 50px 0px 0px 20px;
+    padding: 50px 5px 0px 20px;
     .overview {
       max-height: 250px;
       overflow: auto;

@@ -19,7 +19,7 @@ export default {
     </div>
     <div class="searchbar input-group">
       <input
-        v-model="store.research"
+        v-model="store.research.userResearch"
         @keyup.enter="$emit('user-research')"
         type="text"
         class="form-control"

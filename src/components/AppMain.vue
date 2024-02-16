@@ -26,19 +26,33 @@ export default {
 
 <template>
   <section class="wrapper pt-3">
-    <h2 v-show="store.searchResultsFilms.length != 0" class="">Film</h2>
+    <h2 v-show="store.research.firstResearch">Effettua la tua ricerca..</h2>
+    <h2 v-if="store.searchResultsFilms.length != 0 && !store.noFilmFinded">
+      Film
+    </h2>
+    <h2 v-else-if="store.noFilmFinded" class="text-danger">Film non trovato</h2>
     <div class="navigator">
-      <div v-for="result in store.searchResultsFilms">
-        <AppCard :result="result"></AppCard>
-      </div>
+      <AppCard
+        v-for="result in store.searchResultsFilms"
+        :result="result"
+        :key="result.id"
+      ></AppCard>
     </div>
-    <h2 v-show="store.searchResultsSeries.length != 0" class="mt-3">
+    <h2
+      v-if="store.searchResultsSeries.length != 0 && !store.noSerieFinded"
+      class="mt-3"
+    >
       Serie Tv
     </h2>
+    <h2 v-else-if="store.noSerieFinded" class="text-danger mt-3">
+      Serie non trovata
+    </h2>
     <div class="navigator">
-      <div v-for="result in store.searchResultsSeries">
-        <AppCard :result="result"></AppCard>
-      </div>
+      <AppCard
+        v-for="result in store.searchResultsSeries"
+        :result="result"
+        :key="result.id"
+      ></AppCard>
     </div>
   </section>
 </template>
