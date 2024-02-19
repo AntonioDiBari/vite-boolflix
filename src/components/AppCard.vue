@@ -1,10 +1,12 @@
 <script>
 import { store } from "../store/index.js";
+import axios from "axios";
 
 export default {
   data() {
     return {
       store,
+      actors: [],
     };
   },
   methods: {
@@ -15,6 +17,23 @@ export default {
     getUrl(path, imgName, type) {
       const imgUrl = new URL(path + imgName + type, import.meta.url);
       return imgUrl.href;
+    },
+    searchActor() {
+      axios
+        .get(
+          `${store.apiCredits}${this.result.type}/${this.result.id}/credits?api_key=fc68362da932f9ce47e099180fad846f`
+        )
+        .then((res) => {
+          let mainCast = [];
+          if (res.data.cast.length < 5) {
+            mainCast = res.data.cast;
+          } else {
+            mainCast = res.data.cast.filter((actor, index) => {
+              return index < 5;
+            });
+          }
+          this.actors = mainCast;
+        });
     },
   },
   props: {
@@ -35,7 +54,8 @@ export default {
     <div class="card-info">
       <ul>
         <li>
-          <span class="fw-bolder text-light">Titolo:</span> {{ result.title }}
+          <span class="fw-bolder text-light">Titolo:</span>
+          {{ result.title }}
         </li>
         <li v-show="result.title != result.original_title">
           <span class="fw-bolder text-light">Titolo originale:</span>
@@ -69,8 +89,17 @@ export default {
             {{ result.language }}
           </div>
         </li>
+        <li v-show="actors.length != 0">
+          <span class="fw-bolder text-light">Attori: </span>
+          <span v-for="actor in actors"> {{ actor.name + ` ` }} </span>.
+        </li>
       </ul>
     </div>
+    <font-awesome-icon
+      @click="searchActor()"
+      icon="fa-solid fa-circle-info"
+      class="logo-info"
+    />
   </div>
 </template>
 
@@ -96,17 +125,27 @@ export default {
     height: 510px;
     border: 1px solid white;
     color: grey;
-    padding: 50px 5px 0px 20px;
+    padding: 40px 10px 10px 20px;
+    position: relative;
     .overview {
-      max-height: 250px;
+      max-height: 150px;
       overflow: auto;
     }
+  }
+  .logo-info {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
+    color: whitesmoke;
+    display: none;
   }
 }
 .card:hover > .poster {
   display: none;
 }
-.card:hover > .card-info {
+.card:hover > .card-info,
+.card:hover > .logo-info {
   display: block;
 }
 </style>

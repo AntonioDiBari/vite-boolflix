@@ -25,6 +25,7 @@ export default {
             vote: Math.round(film.vote_average / 2),
             poster_path: film.poster_path,
             overview: film.overview,
+            type: "movie",
           };
         });
         console.log("FILM", res.data.results);
@@ -45,6 +46,7 @@ export default {
             vote: Math.round(serie.vote_average / 2),
             poster_path: serie.poster_path,
             overview: serie.overview,
+            type: "tv",
           };
         });
         console.log("SERIE", res.data.results);
@@ -59,10 +61,23 @@ export default {
       this.fetchFilms(researchValue);
       this.fetchSeries(researchValue);
     },
+    fetchFilmGenres() {
+      axios.get(store.apiUriGenresFilm).then((res) => {
+        store.genres.film = res.data.genres;
+      });
+    },
+    fetchSeriesGenres() {
+      axios.get(store.apiUriGenresSeries).then((res) => {
+        store.genres.tv = res.data.genres;
+      });
+    },
   },
   components: {
     AppHeader,
     AppMain,
+  },
+  created() {
+    this.fetchSeriesGenres(), this.fetchFilmGenres();
   },
 };
 </script>
