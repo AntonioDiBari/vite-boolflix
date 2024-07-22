@@ -46,7 +46,7 @@ export default {
   <div class="card">
     <img
       v-if="result.poster_path"
-      :src="getUrl('https://image.tmdb.org/t/p/w342', result.poster_path)"
+      :src="getUrl('https://image.tmdb.org/t/p/w342', result.poster_path, ``)"
       alt=""
       class="poster"
     />
